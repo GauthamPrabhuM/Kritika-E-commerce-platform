@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Registration</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/validateForm.js') }}"></script>
+	<style> .container {
+		width: 500px;
+		margin: 0 auto;
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	  }
+	  
+	  h2 {
+		text-align: center;
+		margin-bottom: 20px;
+	  }
+	  
+	  label {
+		display: block;
+		margin-bottom: 5px;
+	  }
+	  
+	  input[type="email"],
+	  input[type="password"],
+	  input[type="text"] {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 20px;
+		border: none;
+		border-radius: 5px;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+	  }
+	  
+	  input[type="submit"] {
+		background-color: #1abc9c;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+	  }
+	</style>
+  </head>
+  <body>
+	<div class="container">
+	  <form action="/register" method="POST" onsubmit="return validate()">
+		<h2>Registration Form</h2>
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required>
+
+		<label for="cpassword">Confirm Password:</label>
+		<input type="password" id="cpassword" name="cpassword" required>
+
+		<label for="firstName">First Name:</label>
+		<input type="text" id="firstName" name="firstName" required>
+
+		<label for="lastName">Last Name:</label>
+		<input type="text" id="lastName" name="lastName" required>
+
+		<label for="address1">Address Line 1:</label>
+		<input type="text" id="address1" name="address1" required>
+
+		<label for="address2">Address Line 2:</label>
+		<input type="text" id="address2" name="address2">
+
+		<label for="zipcode">Zipcode:</label>
+		<input type="text" id="zipcode" name="zipcode" required>
+
+		<label for="city">City:</label>
+		<input type="text" id="city" name="city" required>
+
+		<label for="state">State:</label>
+		<input type="text" id="state" name="state" required>
+
+		<label for="country">Country:</label>
+		<input type="text" id="country" name="country" required>
+
+		<label for="phone">Phone Number:</label>
+		<input type="text" id="phone" name="phone" required>
+
+		<input type="submit" value="Register">
+
+		<p>Already have an account? <a href="/loginForm">Login here</a></p>
+	  </form>
+	</div>
+  </body>
+</html>

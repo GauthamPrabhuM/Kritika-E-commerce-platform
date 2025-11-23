@@ -1,0 +1,5 @@
+.vscode/
+venv/
+virtual/
+Changes.txt
+resetDatabase.py

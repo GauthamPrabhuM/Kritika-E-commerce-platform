@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Admin</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f7f7f7;
+		}
+
+		h2 {
+			font-size: 24px;
+			margin-bottom: 20px;
+		}
+
+		form {
+			background-color: #fff;
+			border: 1px solid #ccc;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0,0,0,.1);
+			max-width: 500px;
+			margin: 0 auto;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+
+		input[type="text"],
+		textarea,
+		select {
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			width: 100%;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+		}
+
+		textarea {
+			height: 100px;
+		}
+
+		input[type="submit"] {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #0062cc;
+		}
+	</style>
+</head>
+<body>
+	<h2>Add Items</h2>
+	<form action="/addItem" method="POST" enctype="multipart/form-data">
+		<label for="name">Name:</label>
+		<input type="text" name="name" id="name">
+
+		<label for="price">Price:</label>
+		<input type="text" name="price" id="price">
+
+		<label for="description">Description:</label>
+		<textarea name="description" rows="3" cols="40" id="description"></textarea>
+
+		<label for="image">Image:</label><input type="file" name="image" id="image">
+
+		<label for="stock">Stock:</label>
+		<input type="text" name="stock" id="stock">
+
+		<input type="submit" value="Add Item">
+	</form>
+</body>
+</html>

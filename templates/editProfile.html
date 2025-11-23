@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Edit Profile </title>
+	<link rel="stylesheet" href={{ url_for('static', filename='css/editProfile.css') }} />
+	<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+	
+	<style>
+		body {
+			background-color: pink;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			margin: 0;
+			padding: 0;
+		}
+		h1, h2 {
+			font-weight: bold;
+			text-align: center;
+		}
+		p {
+			margin: 0;
+		}
+		a {
+			text-decoration: none;
+			color: #333;
+		}
+		#title {
+			background-color: black;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+		}
+		#logo {
+			height: 60px;
+		}
+		form {
+			margin-left: auto;
+		}
+		#searchBox {
+			padding: 5px;
+			border-radius: 5px;
+			border: none;
+		}
+		#searchButton {
+			padding: 5px;
+			border-radius: 5px;
+			border: none;
+			background-color: #4CAF50;
+			color: #fff;
+			cursor: pointer;
+			margin-left: 5px;
+		}
+		#signInButton {
+			margin-right: 10px;
+		}
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropbtn {
+	padding: 5px;
+			border-radius: 5px;
+			border: none;
+			background-color: #4CAF50;
+			color: #fff;
+			 cursor: pointer;
+}
+
+#kart {
+  margin-left: 10px;
+}
+
+#cartIcon {
+  height: 30px;
+  margin-right: 5px;
+}
+
+/* Style the main content */
+.display {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+input[type="text"], input[type="email"] {
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+	</style>
+</head>
+<body>
+	<div id="title">
+		<a href="/">
+			<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		</a>
+		<form>
+			<input id="searchBox" type="text" name="searchQuery">
+			<input id="searchButton" type="submit" value="Search">
+		</form>
+		{% if not loggedIn %}
+			<div id="signInButton">
+				<a class="link" href="/loginForm">Sign In</a>
+			</div>
+		{% else %}
+			<div class="dropdown">
+				<button class="dropbtn">Hello, <br>{{firstName}}</button>
+				<div class="dropdown-content">
+					<a href="/account/profile">Your profile</a>
+					<hr>
+					<a href="/logout">Sign Out</a>
+				</div>
+			</div>
+		{% endif %}
+		<div id="kart">
+			<a class="link" href="/cart">
+				<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
+				CART {{noOfItems}}
+			</a>
+		</div>
+	</div>
+
+	<div class="display">
+		<h2>Edit profile</h2>
+		<form action="/updateProfile" method="POST">
+			<table>
+				<tr>
+					<td>Email:</td>
+					<td><input type="email" name="email" value={{profileData[1]}} readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>First Name:</td>
+					<td><input type="text" name="firstName" value={{profileData[2]}}></td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td><input type="text" name="lastName" value={{profileData[3]}}></td>
+				</tr>
+				<tr>
+					<td>Address 1:</td>
+					<td><input type="text" name="address1" value={{profileData[4]}}></td>
+				</tr>
+				<tr>
+					<td>Address 2:</td>
+					<td><input type="text" name="address2" value={{profileData[5]}}></td>
+				</tr>
+				<tr>
+					<td>Zip Code:</td>
+					<td><input type="text" name="zipcode" value={{profileData[6]}}></td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td><input type="text" name="city" value={{profileData[7]}}></td>
+				</tr>
+				<tr>
+					<td>State:</td>
+					<td><input type="text" name="state" value={{profileData[8]}}></td>
+				</tr>
+				<tr>
+					<td>Country:</td>
+					<td><input type="text" name="country" value={{profileData[9]}}></td>
+				</tr>
+				<tr>
+					<td>Phone Number:</td>
+					<td><input type="text" name="phone" value={{profileData[10]}}></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Save"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
+
