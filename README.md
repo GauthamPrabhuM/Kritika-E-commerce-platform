@@ -43,7 +43,29 @@ python3 main.py
 
 Open http://127.0.0.1:5000 in your browser.
 
-Notes
+## Deploy to Production
+
+### Deploy on Render.com (Recommended)
+
+Deploy this app to Render.com for **free** in just a few minutes:
+
+1. Read the [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md) guide
+2. Sign up at https://render.com with your GitHub account
+3. Connect your GitHub repo
+4. Click "Create Web Service" and follow the steps
+5. Your app will be live at `https://YOUR-APP-NAME.onrender.com` ✅
+
+**Features:**
+- ✅ Free tier available
+- ✅ Auto-deployment on GitHub push
+- ✅ SQLite database persistence
+- ✅ Custom domain support
+- ✅ No credit card required to start
+
+See [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md) for detailed step-by-step instructions.
+
+## Notes
+
 - The project was developed against Flask 2.2.x; if you encounter compatibility issues, try installing the version pinned in `requirements.txt`.
 
 ## Development checklist
