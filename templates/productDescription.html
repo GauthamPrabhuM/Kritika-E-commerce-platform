@@ -1,198 +1,253 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Product Description</title>
-<link rel="stylesheet" href={{url_for('static', filename='css/productDescription.css')}} />
-<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css')}} />
-<style>
-	#title {
-	  background-color: black;
-	  height: 70px;
-	  padding: 10px;
-	  display: flex;
-	  justify-content: space-between;
-	  align-items: center;
-	}
-	
-	#logo {
-	  height: 50px;
-	}
-	
-	#searchBox {
-	  padding: 8px;
-	  margin-right: 10px;
-	  border: none;
-	  border-radius: 5px;
-	}
-	
-	#searchButton {
-	  padding: 8px;
-	  background-color: #4CAF50;
-	  color: white;
-	  border: none;
-	  border-radius: 5px;
-	}
-	
-	#signInButton {
-	  background-color: #4CAF50;
-	  color: white;
-	  padding: 10px;
-	  border-radius: 5px;
-	  margin-right: 10px;
-	}
-	
-	.link {
-	  color: inherit;
-	  text-decoration: none;
-	}
-	
-	.dropdown {
-	  position: relative;
-	  display: inline-block;
-	}
-	
-	.dropdown-content {
-	  display: none;
-	  position: absolute;
-	  z-index: 1;
-	  min-width: 160px;
-	  background-color: #f9f9f9;
-	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  border-radius: 5px;
-	  padding: 10px;
-	}
-	
-	.dropdown-content a {
-	  color: black;
-	  padding: 8px 16px;
-	  text-decoration: none;
-	  display: block;
-	}
-	
-	.dropdown:hover .dropdown-content {
-	  display: block;
-	}
-	
-	.dropbtn {
-	  background-color: #4CAF50;
-	  color: white;
-	  padding: 10px;
-	  border-radius: 5px;
-	  margin-right: 10px;
-	  cursor: pointer;
-	}
-	
-	#kart {
-	  margin-left: 10px;
-	}
-	
-	#cartIcon {
-	  height: 30px;
-	  margin-right: 10px;
-	}
-	
-	#display {
-	  margin-top: 20px;
-	  display: flex;
-	  justify-content: space-between;
-	}
-	
-	#productName {
-	  margin-bottom: 20px;
-	}
-	
-	#productImage {
-	  height: 400px;
-	  margin-right: 20px;
-	  border-radius: 5px;
-	}
-	
-	#productDescription {
-	  width: 50%;
-	}
-	
-	#descriptionTable {
-	  border-collapse: collapse;
-	  width: 100%;
-	  margin-bottom: 20px;
-	}
-	
-	#descriptionTable td {
-	  padding: 10px;
-	  border: 1px solid #ddd;
-	}
-	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{data[1]}} - Kritika</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		.image-gallery {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+		.image-gallery img {
+			border-radius: 12px;
+			object-fit: cover;
+		}
 	</style>
-	
 </head>
-<body style="background-color: pink;">
-<div id="title">
-	<a href="/">
-		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
-	</a>
-	<form method="POST" action="/search">
-		<input id="searchBox" type="text" name="searchQuery">
-		<input id="searchButton" type="submit" value="Search">
-	</form>
+<body class="bg-gray-50">
+	<!-- Navigation -->
+	<nav class="bg-white shadow-md sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+			<div class="flex justify-between items-center">
+				<a href="/" class="flex items-center space-x-2 hover:opacity-80 transition">
+					<div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+						<i class="fas fa-leaf text-white text-lg"></i>
+					</div>
+					<span class="text-xl font-bold text-gray-900 hidden sm:inline">Kritika</span>
+				</a>
+				<div class="flex items-center space-x-4">
+					<a href="/cart" class="relative">
+						<div class="p-2 rounded-lg hover:bg-gray-100 transition">
+							<i class="fas fa-shopping-bag text-emerald-600 text-xl"></i>
+							{% if noOfItems > 0 %}
+								<span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+									{{noOfItems}}
+								</span>
+							{% endif %}
+						</div>
+					</a>
+					{% if not loggedIn %}
+						<a href="/loginForm" class="text-emerald-600 font-semibold">Sign In</a>
+					{% else %}
+						<div class="relative group">
+							<button class="p-2 rounded-lg hover:bg-gray-100 transition">
+								<i class="fas fa-user-circle text-gray-700 text-xl"></i>
+							</button>
+							<div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition z-50">
+								<a href="/account/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Your Profile</a>
+								<a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50">Sign Out</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</nav>
 
-	{% if not loggedIn %}
-	<div id="signInButton">
-		<a class="link" href="/loginForm">Sign In</a>
-	</div>
-	{% else %}
-	<div class="dropdown">
-		<button class="dropbtn">Hello, <br>{{firstName}}</button>
-		<div class="dropdown-content">
-						<a href="/account/profile">Your profile</a>
-			<hr>
-			<a href="/logout">Sign Out</a>
+	<!-- Breadcrumb -->
+	<div class="bg-white border-b">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+			<div class="flex items-center space-x-2 text-gray-600">
+				<a href="/" class="hover:text-emerald-600 transition">Home</a>
+				<span>/</span>
+				<a href="/" class="hover:text-emerald-600 transition">Products</a>
+				<span>/</span>
+				<span class="text-emerald-600 font-semibold">{{data[1]}}</span>
+			</div>
 		</div>
 	</div>
-	{% endif %}
-	<div id="kart">
-		<a class="link" href="/cart">
-			<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
-			CART {{noOfItems}}
-		</a>
-	</div>
-</div>
-<div id="display">
-	<div id="productName">
-		<h1>{{data[1]}}</h1>
-	</div>
-	<div>
-		<img src={{url_for('static', filename='uploads/'+data[4]) }} id="productImage"/>
-	</div>
 
-	<div id="productDescription">
-		<h2>Details</h2>
-		<table id="descriptionTable">
-			<tr>
-				<td>Name</td>
-				<td>{{data[1]}}</td>
-			</tr>
-			<tr>
-				<td>Price</td>
-				<td>${{data[2]}}</td>
-			</tr>
-			<tr>
-				<td>Stock</td>
-				<td>{{data[5]}}</td>
-			</tr>
-		</table>
-		<h2>Description</h2>
-		<p>{{data[3]}}</p>
-	</div>
-	<div id="addToCart">
-		<a href="/addToCart?productId={{request.args.get('productId')}}">
-			<button style="background-color: #4CAF50; color: white; 
-				padding: 10px; border-radius: 5px; 
-				margin-right: 10px; cursor: pointer;">
-				Add to Cart
-			</button>
-		</a>
-	</div>
-</div>
+	<!-- Main Content -->
+	<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<!-- Product Images -->
+			<div>
+				<div class="bg-gray-200 rounded-lg overflow-hidden h-96 md:h-[500px] mb-4">
+					<img src="{{ url_for('static', filename='uploads/' + data[4]) }}" alt="{{data[1]}}" class="w-full h-full object-cover">
+				</div>
+				<!-- Additional Images (could be expanded) -->
+				<div class="grid grid-cols-4 gap-4">
+					<div class="bg-gray-200 rounded-lg overflow-hidden h-24 cursor-pointer hover:ring-2 hover:ring-emerald-600 transition">
+						<img src="{{ url_for('static', filename='uploads/' + data[4]) }}" alt="thumbnail" class="w-full h-full object-cover">
+					</div>
+				</div>
+			</div>
+
+			<!-- Product Details -->
+			<div class="space-y-6">
+				<!-- Product Title -->
+				<div>
+					<h1 class="text-4xl font-bold text-gray-900 mb-3">{{data[1]}}</h1>
+					<div class="flex items-center space-x-4 mb-4">
+						<div class="flex text-yellow-400">
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star-half"></i>
+						</div>
+						<span class="text-gray-600">(127 reviews)</span>
+					</div>
+				</div>
+
+				<!-- Price & Stock -->
+				<div class="border-b border-t py-4">
+					<div class="text-3xl font-bold text-emerald-600 mb-2">${{data[2]}}</div>
+					<div class="flex items-center space-x-2">
+						{% if data[5] > 0 %}
+							<span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold">
+								<i class="fas fa-check-circle mr-1"></i>In Stock ({{data[5]}} available)
+							</span>
+						{% else %}
+							<span class="inline-block px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
+								<i class="fas fa-times-circle mr-1"></i>Out of Stock
+							</span>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Product Description -->
+				<div>
+					<h2 class="text-xl font-bold text-gray-900 mb-3">About This Product</h2>
+					<p class="text-gray-700 leading-relaxed mb-4">{{data[3]}}</p>
+					<ul class="space-y-2 text-gray-700">
+						<li class="flex items-start space-x-3">
+							<i class="fas fa-check text-emerald-600 mt-1 flex-shrink-0"></i>
+							<span>Handcrafted with authentic materials</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<i class="fas fa-check text-emerald-600 mt-1 flex-shrink-0"></i>
+							<span>Eco-friendly and sustainable</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<i class="fas fa-check text-emerald-600 mt-1 flex-shrink-0"></i>
+							<span>Supports local artisans</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<i class="fas fa-check text-emerald-600 mt-1 flex-shrink-0"></i>
+							<span>Free shipping on orders over $50</span>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Product Specifications -->
+				<div class="bg-gray-50 p-6 rounded-lg">
+					<h3 class="text-lg font-bold text-gray-900 mb-4">Product Details</h3>
+					<div class="space-y-3">
+						<div class="grid grid-cols-2 gap-4">
+							<div>
+								<p class="text-sm text-gray-600">Product Name</p>
+								<p class="font-semibold text-gray-900">{{data[1]}}</p>
+							</div>
+							<div>
+								<p class="text-sm text-gray-600">Price</p>
+								<p class="font-semibold text-emerald-600">${{data[2]}}</p>
+							</div>
+							<div>
+								<p class="text-sm text-gray-600">Availability</p>
+								<p class="font-semibold text-gray-900">{% if data[5] > 0 %}In Stock{% else %}Out of Stock{% endif %}</p>
+							</div>
+							<div>
+								<p class="text-sm text-gray-600">Stock Quantity</p>
+								<p class="font-semibold text-gray-900">{{data[5]}} units</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Action Buttons -->
+				<div class="space-y-3">
+					{% if data[5] > 0 %}
+						<a href="/addToCart?productId={{request.args.get('productId')}}" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-4 rounded-lg hover:from-emerald-700 hover:to-teal-700 transition flex items-center justify-center space-x-2 text-lg">
+							<i class="fas fa-shopping-cart"></i>
+							<span>Add to Cart</span>
+						</a>
+					{% else %}
+						<button disabled class="w-full bg-gray-400 text-white font-bold py-4 rounded-lg cursor-not-allowed text-lg">
+							<i class="fas fa-ban mr-2"></i>Out of Stock
+						</button>
+					{% endif %}
+					
+					<button class="w-full border-2 border-emerald-600 text-emerald-600 font-bold py-3 rounded-lg hover:bg-emerald-50 transition flex items-center justify-center space-x-2">
+						<i class="fas fa-heart"></i>
+						<span>Save to Wishlist</span>
+					</button>
+				</div>
+
+				<!-- Trust Badge -->
+				<div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+					<div class="flex items-start space-x-3">
+						<i class="fas fa-shield-alt text-emerald-600 text-lg mt-1 flex-shrink-0"></i>
+						<div>
+							<p class="font-semibold text-emerald-900">Secure & Trusted</p>
+							<p class="text-sm text-emerald-700">All payments encrypted. 30-day returns guarantee.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Related Products Section -->
+		<div class="mt-16 pt-12 border-t">
+			<h2 class="text-3xl font-bold text-gray-900 mb-8">Related Products</h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+				<!-- Placeholder for related products -->
+				<div class="text-center text-gray-500 py-8 col-span-full">
+					<p>More handcrafted items coming soon</p>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="bg-gray-900 text-gray-300 mt-16 py-12">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+				<div>
+					<h4 class="text-white font-bold mb-4">About Kritika</h4>
+					<p class="text-sm">Supporting artisans through authentic handcrafted products.</p>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Shop</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">All Products</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">New Arrivals</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Support</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">Contact Us</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">FAQ</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Legal</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">Privacy Policy</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">Terms</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="border-t border-gray-800 pt-8 text-center text-sm">
+				<p>&copy; 2025 Kritika. All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
 

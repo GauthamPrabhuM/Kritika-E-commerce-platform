@@ -1,82 +1,218 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Welcome</title>
-	<link rel="stylesheet" href={{ url_for('static', filename='css/home.css') }} />
-	<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kritika - Handcrafted Women's Products</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<style>
-		.item-table {
-			margin: 0 auto; /* Center align the table */
-			border-collapse: collapse; /* Remove border spacing */
-			width: 80%; /* Set the width of the table */
-			max-width: 800px; /* Set a maximum width for larger screens */
+		.product-card {
+			transition: all 0.3s ease;
 		}
-
-		.item-table th, td {
-			border: 1px solid black; /* Add a border to the table cells */
-			padding: 10px; /* Add some padding to the table cells */
-			text-align: center; /* Center align the text in the table cells */
+		.product-card:hover {
+			transform: translateY(-8px);
+			box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 		}
-
-		.item-table th {
-			background-color: #ccc; /* Set a background color for the table header */
+		.product-image {
+			aspect-ratio: 1;
+			object-fit: cover;
+		}
+		.badge-new {
+			animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+		}
+		@keyframes pulse {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.7; }
 		}
 	</style>
 </head>
-<body style="background: pink;">
-	<div id="title">
-		<a href="/">
-			<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
-		</a>
-		<form method="POST" action="/search">
-			<input id="searchBox" type="text" name="searchQuery">
-			<input id="searchButton" type="submit" value="Search">
-		</form>
-		{% if not loggedIn %}
-			<div id="signInButton">
-				<a class="link" href="/loginForm">Sign In</a>
-			</div>
-		{% else %}
-			<div class="dropdown">
-				<button class="dropbtn">Hello, <br>{{firstName}}</button>
-				<div class="dropdown-content">
-					<a href="/account/profile">Your profile</a>
-					<hr>
-					<a href="/logout">Sign Out</a>
+<body class="bg-gray-50">
+	<!-- Navigation Header -->
+	<nav class="bg-white shadow-md sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+			<div class="flex justify-between items-center">
+				<!-- Logo -->
+				<div class="flex items-center space-x-3">
+					<a href="/" class="flex items-center space-x-2 hover:opacity-80 transition">
+						<div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+							<i class="fas fa-leaf text-white text-lg"></i>
+						</div>
+						<span class="text-xl font-bold text-gray-900 hidden sm:inline">Kritika</span>
+					</a>
 				</div>
-		{% endif %}
-			<div id="kart">
-				<a class="link" href="/cart">
-					<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
-					CART {{noOfItems}}
-				</a>
+
+				<!-- Search Bar -->
+				<div class="flex-1 max-w-md mx-4 hidden sm:block">
+					<form method="POST" action="/search" class="relative">
+						<input type="text" name="searchQuery" placeholder="Search products..." 
+							class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+						<button type="submit" class="absolute right-2 top-2 text-gray-400 hover:text-emerald-600">
+							<i class="fas fa-search"></i>
+						</button>
+					</form>
+				</div>
+
+				<!-- Right Menu -->
+				<div class="flex items-center space-x-4">
+					<!-- Cart Icon -->
+					<a href="/cart" class="relative group">
+						<div class="p-2 rounded-lg hover:bg-gray-100 transition">
+							<i class="fas fa-shopping-bag text-gray-700 text-xl"></i>
+							{% if noOfItems > 0 %}
+								<span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+									{{noOfItems}}
+								</span>
+							{% endif %}
+						</div>
+						<span class="text-xs text-gray-600 group-hover:text-emerald-600 transition hidden sm:block">Cart</span>
+					</a>
+
+					<!-- User Menu -->
+					{% if not loggedIn %}
+						<a href="/loginForm" class="px-4 py-2 text-emerald-600 font-semibold hover:bg-emerald-50 rounded-lg transition">
+							Sign In
+						</a>
+					{% else %}
+						<div class="relative group">
+							<button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition">
+								<i class="fas fa-user-circle text-gray-700 text-xl"></i>
+								<span class="text-sm text-gray-700 hidden sm:inline">{{firstName}}</span>
+							</button>
+							<div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200 z-50">
+								<a href="/account/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-lg transition">
+									<i class="fas fa-user-cog mr-2"></i>Your Profile
+								</a>
+								<a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-red-50 rounded-b-lg transition text-red-600 font-semibold">
+									<i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+								</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Mobile Search -->
+			<div class="block sm:hidden mt-4">
+				<form method="POST" action="/search" class="relative">
+					<input type="text" name="searchQuery" placeholder="Search..." 
+						class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+					<button type="submit" class="absolute right-2 top-2 text-gray-400">
+						<i class="fas fa-search"></i>
+					</button>
+				</form>
 			</div>
 		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-12 px-4">
+		<div class="max-w-7xl mx-auto text-center">
+			<h1 class="text-4xl md:text-5xl font-bold mb-4">Handcrafted Women's Products</h1>
+			<p class="text-lg md:text-xl text-emerald-100 mb-2">Discover authentic, sustainable, and beautifully made handicrafts</p>
+			<p class="text-emerald-200">Supporting artisans, one product at a time</p>
+		</div>
 	</div>
-	<div class="display">
-		<div>
-			<h2 style="text-align: center;">Select From Our Wide Assortment of Items</h2>
-			{% for data in itemData %}		
-				<table class="item-table table table-striped">
-					<tr>
-						{% for row in data %}
-						<td>
-							<p id="productName"> {{row[1]}} <p>
-							<p id="productImage"><a href="/productDescription?productId={{row[0]}}">
-								<img src={{ url_for('static', filename='uploads/' + row[4]) }} id="itemImage" />
-							</a></p>
-							<p id="productPrice"><b>${{row[2]}}</b></p>
-						</td>
-						{% endfor %}
-					</tr>
-				</table>
+
+	<!-- Main Content -->
+	<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+		<!-- Section Title -->
+		<div class="mb-10">
+			<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Our Collection</h2>
+			<p class="text-gray-600">Curated selection of handcrafted items</p>
+		</div>
+
+		<!-- Products Grid -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+			{% for data in itemData %}
+				{% for row in data %}
+					<a href="/productDescription?productId={{row[0]}}" class="product-card">
+						<div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition">
+							<!-- Product Image Container -->
+							<div class="relative bg-gray-200 h-64 overflow-hidden">
+								<img src="{{ url_for('static', filename='uploads/' + row[4]) }}" 
+									alt="{{row[1]}}" class="product-image w-full h-full">
+								<!-- Stock Badge -->
+								{% if row[5] > 0 %}
+									<div class="absolute top-3 right-3 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+										In Stock
+									</div>
+								{% else %}
+									<div class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+										Out of Stock
+									</div>
+								{% endif %}
+							</div>
+
+							<!-- Product Info -->
+							<div class="p-4">
+								<h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-emerald-600 transition">
+									{{row[1]}}
+								</h3>
+								
+								<!-- Rating -->
+								<div class="flex items-center mb-3">
+									<div class="flex text-yellow-400">
+										<i class="fas fa-star text-sm"></i>
+										<i class="fas fa-star text-sm"></i>
+										<i class="fas fa-star text-sm"></i>
+										<i class="fas fa-star text-sm"></i>
+										<i class="fas fa-star-half text-sm"></i>
+									</div>
+									<span class="text-xs text-gray-600 ml-2">(48 reviews)</span>
+								</div>
+
+								<!-- Price -->
+								<div class="flex justify-between items-center">
+									<span class="text-2xl font-bold text-emerald-600">${{row[2]}}</span>
+									<button class="bg-emerald-600 text-white p-2 rounded-lg hover:bg-emerald-700 transition transform hover:scale-110">
+										<i class="fas fa-shopping-cart"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</a>
+				{% endfor %}
 			{% endfor %}
 		</div>
-	</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="bg-gray-900 text-gray-300 mt-16 py-12">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+				<div>
+					<h4 class="text-white font-bold mb-4">About Kritika</h4>
+					<p class="text-sm">Supporting artisans through authentic handcrafted products.</p>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Shop</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">All Products</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">New Arrivals</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">Best Sellers</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Support</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">Contact Us</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">FAQ</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">Shipping Info</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4 class="text-white font-bold mb-4">Legal</h4>
+					<ul class="text-sm space-y-2">
+						<li><a href="#" class="hover:text-emerald-400 transition">Privacy Policy</a></li>
+						<li><a href="#" class="hover:text-emerald-400 transition">Terms & Conditions</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="border-t border-gray-800 pt-8 text-center text-sm">
+				<p>&copy; 2025 Kritika. All rights reserved. | Handcrafted with love.</p>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
