@@ -37,7 +37,7 @@ Fill in the form with these values:
 | **Region** | `Oregon` (or closest to you) |
 | **Branch** | `main` |
 | **Build Command** | `pip install -r requirements.txt` |
-| **Start Command** | `gunicorn main:app` |
+| **Start Command** | `gunicorn -w 4 -b 0.0.0.0:8080 main:app` |
 | **Plan** | `Free` |
 
 ### Step 4: Set Environment Variables (Optional but Recommended)
